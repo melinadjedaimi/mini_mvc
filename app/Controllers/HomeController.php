@@ -8,7 +8,6 @@ namespace Mini\Controllers;
 use Mini\Core\Controller;
 use Mini\Models\User;
 
-require("app/Models/User.php");
 // Déclare la classe finale HomeController qui hérite de Controller
 final class HomeController extends Controller
 {
