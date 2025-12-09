@@ -8,4 +8,6 @@
 
 <h2>Le 2eme prénom est <?= $prenom2 ?></h2>
 
+<h2>Test = <?= $test ?></h2>
+
 
