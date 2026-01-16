@@ -7,19 +7,59 @@ namespace Mini\Controllers;
 // Importe la classe de base Controller du noyau
 use Mini\Core\Controller;
 use Mini\Models\Product;
+use Mini\Models\Category;
 
 // Déclare la classe finale ProductController qui hérite de Controller
 final class ProductController extends Controller
 {
+    // Liste tous les produits (page catalogue secondaire)
     public function listProducts(): void
     {
-        // Récupère tous les produits
-        $products = Product::getAll();
+        // Récupère le paramètre de catégorie depuis l'URL
+        $categorieId = isset($_GET['categorie']) ? (int)$_GET['categorie'] : 0;
+        
+        // Récupère toutes les catégories pour la navigation
+        $categories = Category::getAll();
+        
+        // Récupère les produits selon la catégorie sélectionnée
+        if ($categorieId > 0) {
+            $products = Product::getByCategory($categorieId);
+            $selectedCategory = Category::findById($categorieId);
+            $pageTitle = $selectedCategory ? 'Catégorie : ' . $selectedCategory['nom'] : 'Liste des produits';
+        } else {
+            $products = Product::getAll();
+            $pageTitle = 'Catalogue complet';
+        }
         
         // Affiche la liste des produits
         $this->render('product/list-products', params: [
-            'title' => 'Liste des produits',
-            'products' => $products
+            'title' => $pageTitle,
+            'products' => $products,
+            'categories' => $categories,
+            'selectedCategoryId' => $categorieId
+        ]);
+    }
+
+    // Page détail produit
+    public function showProduct(): void
+    {
+        $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+        if ($id <= 0) {
+            http_response_code(404);
+            echo 'Produit introuvable';
+            return;
+        }
+
+        $product = Product::findById($id);
+        if ($product === null) {
+            http_response_code(404);
+            echo 'Produit introuvable';
+            return;
+        }
+
+        $this->render('product/detail', [
+            'title'   => $product['nom'] . ' - Détail',
+            'product' => $product,
         ]);
     }
 

@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Définit le titre de la page avec échappement -->
     <title><?= isset($title) ? htmlspecialchars($title) : 'App' ?></title>
+    <!-- Style Galeries Lafayette -->
+    <link rel="stylesheet" href="/css/galeries-lafayette-style.css">
 </head>
 <!-- Corps du document -->
 <body>
@@ -18,71 +20,75 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
 $isHome = ($currentPath === '/');
 $isProducts = ($currentPath === '/products');
 $isProductsCreate = ($currentPath === '/products/create');
-$isUsersCreate = ($currentPath === '/users/create');
+$isCart = ($currentPath === '/cart');
+$isLogin = ($currentPath === '/login');
+$isRegister = ($currentPath === '/register');
+$isMyOrders = ($currentPath === '/mes-commandes');
+
+$user = $_SESSION['user'] ?? null;
+$cart = $_SESSION['cart'] ?? [];
+$cartCount = array_sum(is_array($cart) ? $cart : []);
 ?>
 <!-- En-tête de la page -->
-<header style="background-color: #343a40; color: white; padding: 15px 0; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+<header>
+    <div class="header-top">
+        ✨ LIVRAISON OFFERTE DÈS 100€ D'ACHAT ✨
+    </div>
+    <div class="header-container">
         <!-- Logo/Titre -->
-        <h1 style="margin: 0; font-size: 24px;">
-            <a href="/" style="color: white; text-decoration: none;">Mini MVC</a>
+        <h1 class="logo">
+            <a href="/">
+                <span class="logo-icon">◆</span>
+                Mareva
+            </a>
         </h1>
         
         <!-- Navigation -->
         <nav>
-            <ul style="list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <ul>
                 <li>
-                    <a href="/" 
-                       style="color: <?= $isHome ? '#ffc107' : 'white' ?>; 
-                              text-decoration: none; 
-                              padding: 8px 15px; 
-                              border-radius: 4px;
-                              display: inline-block;
-                              transition: background-color 0.3s;"
-                       onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'"
-                       onmouseout="this.style.backgroundColor='transparent'">
-                        🏠 Accueil
+                    <a href="/" class="<?= $isHome ? 'active' : '' ?>">
+                        Accueil
                     </a>
                 </li>
                 <li>
-                    <a href="/products" 
-                       style="color: <?= $isProducts ? '#ffc107' : 'white' ?>; 
-                              text-decoration: none; 
-                              padding: 8px 15px; 
-                              border-radius: 4px;
-                              display: inline-block;
-                              transition: background-color 0.3s;"
-                       onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'"
-                       onmouseout="this.style.backgroundColor='transparent'">
-                        📦 Produits
+                    <a href="/products" class="<?= $isProducts ? 'active' : '' ?>">
+                        Catalogue
                     </a>
                 </li>
                 <li>
-                    <a href="/products/create" 
-                       style="color: <?= $isProductsCreate ? '#ffc107' : 'white' ?>; 
-                              text-decoration: none; 
-                              padding: 8px 15px; 
-                              border-radius: 4px;
-                              display: inline-block;
-                              transition: background-color 0.3s;"
-                       onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'"
-                       onmouseout="this.style.backgroundColor='transparent'">
-                        ➕ Ajouter un produit
+                    <a href="/cart" class="<?= $isCart ? 'active' : '' ?>">
+                        Panier (<?= (int)$cartCount ?>)
                     </a>
                 </li>
-                <li>
-                    <a href="/users/create" 
-                       style="color: <?= $isUsersCreate ? '#ffc107' : 'white' ?>; 
-                              text-decoration: none; 
-                              padding: 8px 15px; 
-                              border-radius: 4px;
-                              display: inline-block;
-                              transition: background-color 0.3s;"
-                       onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'"
-                       onmouseout="this.style.backgroundColor='transparent'">
-                        👤 Ajouter un utilisateur
-                    </a>
-                </li>
+                <?php if ($user): ?>
+                    <li>
+                        <a href="/mes-commandes" class="<?= $isMyOrders ? 'active' : '' ?>">
+                            Mes commandes
+                        </a>
+                    </li>
+                    <li>
+                        <span class="user-greeting">
+                            Bonjour <?= htmlspecialchars($user['nom']) ?>
+                        </span>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            Déconnexion
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="/login" class="<?= $isLogin ? 'active' : '' ?>">
+                            Connexion
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/register" class="<?= $isRegister ? 'active' : '' ?>">
+                            Inscription
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </nav>
     </div>
@@ -93,6 +99,71 @@ $isUsersCreate = ($currentPath === '/users/create');
     <?= $content ?>
     
 </main>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p class="footer-text">© <?= date('Y') ?> Mareva - Tous droits réservés</p>
+        <p class="footer-text" style="margin-top: 10px; font-size: 11px;">Style inspiré des Galeries Lafayette</p>
+    </div>
+</footer>
+
+<!-- Script Carrousel -->
+<script>
+let currentSlideIndex = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.dot');
+let autoSlideInterval;
+
+function showSlide(index) {
+    // Gérer les limites
+    if (index >= slides.length) {
+        currentSlideIndex = 0;
+    } else if (index < 0) {
+        currentSlideIndex = slides.length - 1;
+    } else {
+        currentSlideIndex = index;
+    }
+    
+    // Masquer toutes les slides
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // Afficher la slide active
+    if (slides[currentSlideIndex]) {
+        slides[currentSlideIndex].classList.add('active');
+    }
+    if (dots[currentSlideIndex]) {
+        dots[currentSlideIndex].classList.add('active');
+    }
+}
+
+function moveCarousel(direction) {
+    showSlide(currentSlideIndex + direction);
+    resetAutoSlide();
+}
+
+function currentSlide(index) {
+    showSlide(index);
+    resetAutoSlide();
+}
+
+function autoSlide() {
+    moveCarousel(1);
+}
+
+function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    autoSlideInterval = setInterval(autoSlide, 5000);
+}
+
+// Démarrer le carrousel automatique si les slides existent
+if (slides.length > 0) {
+    showSlide(0);
+    autoSlideInterval = setInterval(autoSlide, 5000);
+}
+</script>
+
 <!-- Fin du corps de la page -->
 </body>
 <!-- Fin du document HTML -->

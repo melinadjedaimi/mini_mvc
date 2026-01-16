@@ -1,19 +1,19 @@
 <!-- Formulaire pour créer un nouveau produit -->
-<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h2>Ajouter un nouveau produit</h2>
+<div class="main-container" style="max-width: 700px;">
+    <div class="section-header" style="border-bottom: 2px solid var(--gl-gold); margin-bottom: 30px;">
+        <h2 class="section-title">Ajouter un produit</h2>
+    </div>
     
     <!-- Message de succès ou d'erreur -->
     <?php if (isset($message)): ?>
-        <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; 
-                    background-color: <?= isset($success) && $success ? '#d4edda' : '#f8d7da' ?>; 
-                    color: <?= isset($success) && $success ? '#155724' : '#721c24' ?>;">
-            <?= isset($success) && $success ? '✅ ' : '❌ ' ?><?= htmlspecialchars($message) ?>
+        <div class="alert <?= isset($success) && $success ? 'alert-success' : 'alert-error' ?>">
+            <?= isset($success) && $success ? '✓ ' : '× ' ?><?= htmlspecialchars($message) ?>
         </div>
     <?php endif; ?>
     
-    <form method="POST" action="/products" style="display: flex; flex-direction: column; gap: 15px;">
-        <div>
-            <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom du produit :</label>
+    <form method="POST" action="/products" style="background: var(--gl-white); border: 1px solid var(--gl-gray-medium); padding: 40px;">
+        <div class="form-group">
+            <label for="nom" class="form-label">Nom du produit</label>
             <input 
                 type="text" 
                 id="nom" 
@@ -21,24 +21,24 @@
                 required 
                 maxlength="150"
                 value="<?= isset($old_values['nom']) ? htmlspecialchars($old_values['nom']) : '' ?>"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                class="form-control"
                 placeholder="Entrez le nom du produit"
             >
         </div>
         
-        <div>
-            <label for="description" style="display: block; margin-bottom: 5px; font-weight: bold;">Description :</label>
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
             <textarea 
                 id="description" 
                 name="description" 
                 rows="4"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit;"
+                class="form-control"
                 placeholder="Entrez la description du produit (optionnel)"
             ><?= isset($old_values['description']) ? htmlspecialchars($old_values['description']) : '' ?></textarea>
         </div>
         
-        <div>
-            <label for="prix" style="display: block; margin-bottom: 5px; font-weight: bold;">Prix :</label>
+        <div class="form-group">
+            <label for="prix" class="form-label">Prix (€)</label>
             <input 
                 type="number" 
                 id="prix" 
@@ -47,13 +47,13 @@
                 step="0.01"
                 min="0"
                 value="<?= isset($old_values['prix']) ? htmlspecialchars($old_values['prix']) : '' ?>"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                class="form-control"
                 placeholder="0.00"
             >
         </div>
         
-        <div>
-            <label for="stock" style="display: block; margin-bottom: 5px; font-weight: bold;">Stock :</label>
+        <div class="form-group">
+            <label for="stock" class="form-label">Stock</label>
             <input 
                 type="number" 
                 id="stock" 
@@ -61,48 +61,45 @@
                 required 
                 min="0"
                 value="<?= isset($old_values['stock']) ? htmlspecialchars($old_values['stock']) : '' ?>"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                class="form-control"
                 placeholder="0"
             >
         </div>
         
-        <div>
-            <label for="image_url" style="display: block; margin-bottom: 5px; font-weight: bold;">URL de l'image :</label>
+        <div class="form-group">
+            <label for="image_url" class="form-label">URL de l'image</label>
             <input 
                 type="url" 
                 id="image_url" 
                 name="image_url" 
                 value="<?= isset($old_values['image_url']) ? htmlspecialchars($old_values['image_url']) : '' ?>"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                class="form-control"
                 placeholder="https://exemple.com/image.jpg"
             >
-            <small style="display: block; margin-top: 5px; color: #666;">Entrez l'URL complète de l'image (optionnel)</small>
-        </div>
+            <small style="display: block; margin-top: 8px; color: var(--gl-gray-dark); font-size: 12px; letter-spacing: 0.3px;">Entrez l'URL complète de l'image (optionnel)</small>
         
         <!-- Aperçu de l'image si une URL est fournie -->
         <?php if (!empty($old_values['image_url']) && filter_var($old_values['image_url'], FILTER_VALIDATE_URL)): ?>
-            <div style="margin-top: 10px;">
-                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Aperçu de l'image :</label>
-                <img 
-                    src="<?= htmlspecialchars($old_values['image_url']) ?>" 
-                    alt="Aperçu" 
-                    style="max-width: 100%; max-height: 300px; border: 1px solid #ccc; border-radius: 4px; object-fit: contain;"
-                    onerror="this.style.display='none'"
-                >
+            <div class="form-group">
+                <label class="form-label">Aperçu de l'image</label>
+                <div style="border: 1px solid var(--gl-gray-medium); padding: 20px; text-align: center; background: var(--gl-gray-light);">
+                    <img 
+                        src="<?= htmlspecialchars($old_values['image_url']) ?>" 
+                        alt="Aperçu" 
+                        style="max-width: 100%; max-height: 300px; object-fit: contain;"
+                        onerror="this.style.display='none'"
+                    >
+                </div>
             </div>
         <?php endif; ?>
         
-        <button 
-            type="submit" 
-            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;"
-        >
+        <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 10px;">
             Créer le produit
         </button>
     </form>
     
-    <div style="margin-top: 20px; display: flex; gap: 15px;">
-        <a href="/products" style="color: #007bff; text-decoration: none;">📋 Voir la liste des produits</a>
-        <span style="color: #ccc;">|</span>
-        <a href="/" style="color: #007bff; text-decoration: none;">← Retour à l'accueil</a>
+    <div style="margin-top: 30px; display: flex; gap: 20px; justify-content: center;">
+        <a href="/products" class="btn btn-outline">Voir le catalogue</a>
+        <a href="/" class="btn btn-outline">Retour à l'accueil</a>
     </div>
 </div>
