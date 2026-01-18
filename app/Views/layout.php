@@ -159,12 +159,16 @@ $cartCount = array_sum(is_array($cart) ? $cart : []);
     </div>
 </footer>
 
-<!-- Script Carrousel -->
+<!-- Script Carrousel moderne -->
 <script>
 let currentSlideIndex = 0;
 const slides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.dot');
+const indicators = document.querySelectorAll('.indicator');
+const progressBar = document.querySelector('.carousel-progress-bar');
 let autoSlideInterval;
+let progressInterval;
+const slideInterval = 6000; // 6 secondes par slide
+let progress = 0;
 
 function showSlide(index) {
     // Gérer les limites
@@ -178,15 +182,18 @@ function showSlide(index) {
     
     // Masquer toutes les slides
     slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
     
     // Afficher la slide active
     if (slides[currentSlideIndex]) {
         slides[currentSlideIndex].classList.add('active');
     }
-    if (dots[currentSlideIndex]) {
-        dots[currentSlideIndex].classList.add('active');
+    if (indicators[currentSlideIndex]) {
+        indicators[currentSlideIndex].classList.add('active');
     }
+    
+    // Réinitialiser la barre de progression
+    resetProgress();
 }
 
 function moveCarousel(direction) {
@@ -203,15 +210,50 @@ function autoSlide() {
     moveCarousel(1);
 }
 
+function updateProgress() {
+    progress += 100 / (slideInterval / 50);
+    if (progressBar) {
+        progressBar.style.width = progress + '%';
+    }
+    if (progress >= 100) {
+        progress = 0;
+    }
+}
+
+function resetProgress() {
+    progress = 0;
+    if (progressBar) {
+        progressBar.style.width = '0%';
+    }
+    clearInterval(progressInterval);
+    progressInterval = setInterval(updateProgress, 50);
+}
+
 function resetAutoSlide() {
     clearInterval(autoSlideInterval);
-    autoSlideInterval = setInterval(autoSlide, 5000);
+    clearInterval(progressInterval);
+    autoSlideInterval = setInterval(autoSlide, slideInterval);
+    resetProgress();
 }
 
 // Démarrer le carrousel automatique si les slides existent
 if (slides.length > 0) {
     showSlide(0);
-    autoSlideInterval = setInterval(autoSlide, 5000);
+    autoSlideInterval = setInterval(autoSlide, slideInterval);
+    resetProgress();
+}
+
+// Pause au survol
+const carouselContainer = document.querySelector('.carousel-container');
+if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+        clearInterval(progressInterval);
+    });
+    
+    carouselContainer.addEventListener('mouseleave', () => {
+        resetAutoSlide();
+    });
 }
 </script>
 
