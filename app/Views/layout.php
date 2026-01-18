@@ -102,9 +102,61 @@ $cartCount = array_sum(is_array($cart) ? $cart : []);
 
 <!-- Footer -->
 <footer>
-    <div class="footer-content">
-        <p class="footer-text">© <?= date('Y') ?> Mareva - Tous droits réservés</p>
-        <p class="footer-text" style="margin-top: 10px; font-size: 11px;">Style inspiré des Galeries Lafayette</p>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">MAREVA</h3>
+            <p class="footer-description">Élégance et raffinement depuis 2026</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4 class="footer-subtitle">BOUTIQUE</h4>
+            <ul class="footer-links">
+                <li><a href="/products">Catalogue</a></li>
+                <li><a href="/products?categorie=1">Robes</a></li>
+                <li><a href="/products?categorie=2">Tops</a></li>
+                <li><a href="/products?categorie=3">Pantalons</a></li>
+                <li><a href="/products?categorie=5">Accessoires</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4 class="footer-subtitle">INFORMATIONS</h4>
+            <ul class="footer-links">
+                <li><a href="/">À propos</a></li>
+                <li><a href="/">Mentions légales</a></li>
+                <li><a href="/">Politique de confidentialité</a></li>
+                <li><a href="/">Conditions générales de vente</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4 class="footer-subtitle">SERVICE CLIENT</h4>
+            <ul class="footer-links">
+                <li><a href="/">Contact</a></li>
+                <li><a href="/">Livraison & Retours</a></li>
+                <li><a href="/">Guide des tailles</a></li>
+                <li><a href="/">FAQ</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4 class="footer-subtitle">MON COMPTE</h4>
+            <ul class="footer-links">
+                <?php if ($user): ?>
+                    <li><a href="/mes-commandes">Mes commandes</a></li>
+                    <li><a href="/cart">Mon panier</a></li>
+                    <li><a href="/logout">Déconnexion</a></li>
+                <?php else: ?>
+                    <li><a href="/login">Connexion</a></li>
+                    <li><a href="/register">Créer un compte</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© <?= date('Y') ?> Mareva - Tous droits réservés</p>
+        <p style="margin-top: 5px; font-size: 10px; opacity: 0.6;">Style inspiré des Galeries Lafayette</p>
     </div>
 </footer>
 
