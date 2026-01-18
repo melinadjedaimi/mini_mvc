@@ -38,6 +38,16 @@ $routes = [
     // Commandes / espace client
     ['POST', '/checkout', [Mini\Controllers\OrderController::class, 'checkout']],
     ['GET', '/mes-commandes', [Mini\Controllers\OrderController::class, 'myOrders']],
+
+    // Pages statiques
+    ['GET', '/a-propos', [Mini\Controllers\PageController::class, 'about']],
+    ['GET', '/mentions-legales', [Mini\Controllers\PageController::class, 'legalNotice']],
+    ['GET', '/politique-confidentialite', [Mini\Controllers\PageController::class, 'privacyPolicy']],
+    ['GET', '/cgv', [Mini\Controllers\PageController::class, 'termsOfSale']],
+    ['GET', '/contact', [Mini\Controllers\PageController::class, 'contact']],
+    ['GET', '/livraison-retours', [Mini\Controllers\PageController::class, 'shippingReturns']],
+    ['GET', '/guide-tailles', [Mini\Controllers\PageController::class, 'sizeGuide']],
+    ['GET', '/faq', [Mini\Controllers\PageController::class, 'faq']],
 ];
 // Bootstrap du router
 $router = new Router($routes);

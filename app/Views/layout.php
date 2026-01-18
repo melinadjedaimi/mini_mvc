@@ -122,20 +122,20 @@ $cartCount = array_sum(is_array($cart) ? $cart : []);
         <div class="footer-section">
             <h4 class="footer-subtitle">INFORMATIONS</h4>
             <ul class="footer-links">
-                <li><a href="/">À propos</a></li>
-                <li><a href="/">Mentions légales</a></li>
-                <li><a href="/">Politique de confidentialité</a></li>
-                <li><a href="/">Conditions générales de vente</a></li>
+                <li><a href="/a-propos">À propos</a></li>
+                <li><a href="/mentions-legales">Mentions légales</a></li>
+                <li><a href="/politique-confidentialite">Politique de confidentialité</a></li>
+                <li><a href="/cgv">Conditions générales de vente</a></li>
             </ul>
         </div>
         
         <div class="footer-section">
             <h4 class="footer-subtitle">SERVICE CLIENT</h4>
             <ul class="footer-links">
-                <li><a href="/">Contact</a></li>
-                <li><a href="/">Livraison & Retours</a></li>
-                <li><a href="/">Guide des tailles</a></li>
-                <li><a href="/">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/livraison-retours">Livraison & Retours</a></li>
+                <li><a href="/guide-tailles">Guide des tailles</a></li>
+                <li><a href="/faq">FAQ</a></li>
             </ul>
         </div>
         
@@ -156,7 +156,6 @@ $cartCount = array_sum(is_array($cart) ? $cart : []);
     
     <div class="footer-bottom">
         <p>© <?= date('Y') ?> Mareva - Tous droits réservés</p>
-        <p style="margin-top: 5px; font-size: 10px; opacity: 0.6;">Style inspiré des Galeries Lafayette</p>
     </div>
 </footer>
 

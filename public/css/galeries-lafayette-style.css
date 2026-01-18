@@ -814,3 +814,73 @@ footer {
 .product-card {
     animation: fadeIn 0.5s ease;
 }
+
+/* Pages statiques */
+.page-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--gl-black);
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.text-content {
+    line-height: 1.8;
+}
+
+.text-content h2 {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: var(--gl-black);
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.text-content h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gl-text);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.text-content p {
+    margin-bottom: 15px;
+    color: var(--gl-text);
+}
+
+.text-content ul, .text-content ol {
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.text-content li {
+    margin-bottom: 8px;
+    color: var(--gl-text);
+}
+
+.text-content a {
+    color: var(--gl-gold-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gl-gold);
+}
+
+.text-content a:hover {
+    color: var(--gl-gold);
+}
+
+.contact-info {
+    background-color: var(--gl-gray-light);
+    padding: 30px;
+    border-radius: 4px;
+    margin-top: 30px;
+}
